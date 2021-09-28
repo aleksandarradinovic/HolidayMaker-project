@@ -9,30 +9,7 @@
             <h1 class="display-1">{{title}}</h1>
             <h3 class="display-6">Visit you dreamplace</h3>
           </div>
-          <div class="border p-3 p-md-5 bg-white rounded shadow">
-            <form>
-              <div class="form-group">
-                <input 
-                        type="text" 
-                        placeholder="Type in destination"
-                        class="form-control"
-                        >
-                <input  type="date" id="start" name="trip-start"
-                        value=""
-                        min="2021-01-01" 
-                        max="2021-12-31"
-                        >
-                <input  type="date" id="end" name="trip-start"
-                        value=""
-                        min="2021-01-01" 
-                        max="2021-12-31"
-                        >
-              <div>
-                <button type="submit" class="btn btn-info mt-3">Search</button>
-              </div>
-              </div>
-            </form>
-          </div>
+          <Searchform></Searchform>
         </div>
       </div>
     </div>
@@ -40,6 +17,7 @@
 </template>
 
 <script>
+import Searchform from '../components/Searchform.vue'
 
 export default {
   name: 'Home',
@@ -49,6 +27,7 @@ export default {
     }
   },
   components: {
+    Searchform,
   }
 }
 </script>
