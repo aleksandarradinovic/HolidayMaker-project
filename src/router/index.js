@@ -8,10 +8,15 @@ const routes = [
     component: Home
   },
   {
-    path: '/about',
-    name: 'About',
-    component: () => import('../views/About.vue')
-  }
+    path: '/hotels',
+    name: 'Hotels',
+    component: () => import('../views/Hotels.vue')
+  },
+  {
+    path: '/hotel/:ID',
+    name: 'Hotel-Room',
+    component: () => import('../views/Hotel-Rooms.vue')
+  },
 ]
 
 const router = createRouter({

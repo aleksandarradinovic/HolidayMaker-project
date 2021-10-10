@@ -1,52 +1,82 @@
 <template>
     <div id="bookinghotelform" class="border p-3 p-md-5 bg-white rounded shadow">
-              <div class="form-group">
-                <input 
-                        type="text" 
-                        placeholder="Type in destination"
-                        class="form-control"
-                        >
-                <input  type="date" id="start" name="trip-start"
-                        value=""
-                        min="2021-01-01" 
-                        max="2021-12-31"
-                        >
-                <input  type="date" id="end" name="trip-end"
-                        value=""
-                        min="2021-01-01" 
-                        max="2021-12-31"
-                        >
-                  <Searchmodal v-show="isModalVisible" @close="closeModal" />
-                <div>
-                  <button type="button" class="btn" @click="showModal">Open Modal</button>
-                  
+              <div class="form-controll">
+                <div class="LblDiv">
+                  <label>Choose destination</label>
+                  <Dropdown id="component-dropdown" @change="saveDestination($event.target.value)" :options="cityDestination"></Dropdown>
+                </div>
+                <div class="mt-3">
+                  <Datepicker />
+                </div>
+                <div class="row mt-3">
+                    <div>
+                    <label >How many guests</label>
+                    <Dropdown id="component-dropdown" @change="saveGuests($event.target.value)" :options="numberOfPeople"></Dropdown>
+                  </div>
+                  <div>
+                    <label >How many rooms</label>
+                    <Dropdown id="component-dropdown" @change="saveRooms($event.target.value)" :options="numberOfRooms" ></Dropdown>
+                  </div>
                 </div>
                 <div>
-                  <button type="button" class="searchHotelsbtn">Search</button>
+                  <button @click="showHotels(this.$store.state.chosenDestination)" type="button" class="searchHotelsbtn">Search</button>
                 </div>
               </div>
           </div>
 </template>
 
 <script>
-import Searchmodal from './Searchmodal.vue'
+import router from '../router/index'
+import Dropdown from './Dropdown.vue'
+import {mapActions, mapMutations} from 'vuex'
+import Datepicker from './Datepicker.vue'
 export default{
     name: 'Searchform',
-    data() {
-      return{
-        isModalVisible: false,
-      }
-    },
-    components: {
-      Searchmodal,
-    },
-    methods: {
-      showModal() {
-        this.isModalVisible = true;
+      data() {
+        return{
+          isModalVisible: false,
+          dateStart: '',
+          dateEnd:'',
+          cityDestination: {
+            'Stockholm': 'Stockholm',
+            'Barcelona': 'Barcelona',
+            'Budva': 'Budva'
+          },
+          numberOfPeople: {
+            1:1, 2:2, 3:3, 4:4,
+          },
+          numberOfRooms: {
+            1:1, 2:2, 3:3, 4:4,
+          },
+        }
       },
-      closeModal() {
-        this.isModalVisible = false;
-      }
+      components: {
+        Dropdown,
+        Datepicker,
+      },
+
+      methods: {
+        ...mapActions(['fetchHotels']),
+        showHotels(chosenDestination){
+          this.fetchHotels(chosenDestination);
+          router.push("/hotels")
+        },
+        ...mapMutations(['setChosenDestination']),
+        saveDestination(value){
+          this.setChosenDestination(value)
+          console.log(this.$store.state.chosenDestination, "From store")
+          console.log("Selected city: ", value)
+        },
+        ...mapMutations(['setNumberOfPeople']),
+        saveGuests(value){
+          this.setNumberOfPeople(value);
+          console.log("Number of people from store",this.$store.state.numberOfpeople);
+        },
+        ...mapMutations(['setNumberOfRooms']),
+        saveRooms(value){
+          this.setNumberOfRooms(value);
+          console.log("Number of rooms from store", this.$store.state.numberOfRooms)
+        }
     }
 }
 </script>
