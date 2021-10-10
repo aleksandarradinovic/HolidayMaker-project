@@ -4,23 +4,24 @@
 
             <section class="modal-body">
                 <slot> 
-                <h1>ALEKSANDAR</h1>
+                   <div v-for="item in this.$store.state.hotelDescription" :key="item.ID">
+                     <div class="p-2">
+                       <span class="fas fa-dumbbell fa-2x fs-5">{{ item.gym ? "Yes" : "No" }}</span>
+                     </div>
+                     <div class="p-2"><span class="fas fa-swimmer fa-lg fs-6">{{ item.pool ? "Yes" : "No" }}</span></div>
+                     <div class="p-2"><span class="fas fa-utensils fa-lg fs-6">{{ item.restaurant ? "Yes" : "No" }}</span></div>
+                     <div class="p-2"><span class="fas fa-wifi fa-lg fs-6">{{ item.wifi ? "Yes" : "No" }}</span></div>
+                     <div class="p-2"><span class="fas fa-coffee fa-lg fs-6">{{ item.breakfeast ? "Yes" : "No" }}</span></div>
+                </div>
+                <button
+                type="button"
+                class="btn-green"
+                @click="close"
+                >
+                Close
+                </button>
                 </slot>
             </section>
-
-      <footer class="modal-footer">
-        <slot name="footer">
-          This is the default footer!
-          <h1>BAJS</h1>
-        </slot>
-        <button
-          type="button"
-          class="btn-green"
-          @click="close"
-        >
-          Close Modal
-        </button>
-      </footer>
         </div>
     </div>
 </template>

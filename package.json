@@ -8,9 +8,13 @@
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
+    "axios": "^0.22.0",
     "core-js": "^3.6.5",
+    "moment": "^2.29.1",
     "vue": "^3.0.0",
+    "vue-axios": "^3.3.7",
     "vue-router": "^4.0.0-0",
+    "vue-time-date-range-picker": "^1.5.0",
     "vuex": "^4.0.0-0"
   },
   "devDependencies": {
