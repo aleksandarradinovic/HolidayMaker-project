@@ -7,7 +7,7 @@
 
 <script>
 import router from '../router/index'
-import HotelListByCity from '../components/HotelList.vue'
+import HotelListByCity from '../components/Lists/HotelList.vue'
 
 export default{
   components: {

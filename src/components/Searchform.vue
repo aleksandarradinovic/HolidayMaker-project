@@ -9,7 +9,7 @@
                         >
                         See bookings <i class="fas fa-list-alt"></i>
                         </button>
-                        <Bookingsmodal
+                        <Modal
                             v-show="isModalVisible"
                             @close="closeModal"
                           >
@@ -38,7 +38,7 @@
                             <template v-slot:footer>
                               footer from home.
                             </template>
-                          </Bookingsmodal>
+                          </Modal>
                     </div>
            <p v-if="errors.length">
               <b>Please correct the following error(s):</b>
@@ -77,8 +77,8 @@ import router from '../router/index'
 import Dropdown from './Dropdown.vue'
 import Datepicker from './Datepicker.vue'
 
-import Bookingsmodal from './Bookingsmodal.vue'
-import Listingbookings from '../components/ListingBookings.vue'
+import Modal from './Modal.vue'
+import Listingbookings from './Lists/BookingsList.vue'
 
 export default{
     name: 'Searchform',
@@ -107,7 +107,7 @@ export default{
       components: {
         Dropdown,
         Datepicker,
-        Bookingsmodal,
+        Modal,
         Listingbookings,
       },
 

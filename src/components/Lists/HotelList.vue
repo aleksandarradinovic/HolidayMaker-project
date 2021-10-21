@@ -28,12 +28,29 @@
                         >
                         Show Hotel Facilities
                         </button>
-                                            <Modal
-                        v-show="isModalVisible"
-                        @close="closeModal"
-                            
-                        />
-                        
+                        <Modal
+                            v-show="isModalVisible"
+                            @close="closeModal"
+                        >
+                            <template v-slot:header>
+                            </template>
+                   
+                            <template v-slot:body>
+                              <div v-for="item in this.$store.state.hotelDescription" :key="item.ID">
+                                    <div class="p-2">
+                                        <span class="fas fa-dumbbell fa-2x fs-5">{{ item.gym ? "Yes" : "No" }}</span>
+                                    </div>
+                                    <div class="p-2"><span class="fas fa-swimmer fa-lg fs-6">{{ item.pool ? "Yes" : "No" }}</span></div>
+                                    <div class="p-2"><span class="fas fa-utensils fa-lg fs-6">{{ item.restaurant ? "Yes" : "No" }}</span></div>
+                                    <div class="p-2"><span class="fas fa-wifi fa-lg fs-6">{{ item.wifi ? "Yes" : "No" }}</span></div>
+                                    <div class="p-2"><span class="fas fa-coffee fa-lg fs-6">{{ item.breakfeast ? "Yes" : "No" }}</span></div>
+                                </div>
+                            </template>
+
+                            <template v-slot:footer>
+                                footer
+                            </template>
+                          </Modal>
                         <button @click="getRoomList(hotel.ID, hotel.hotel_name)" class="btn btn-primary text-uppercase">Show Rooms</button>
                     </div>
                 </div>
@@ -44,15 +61,14 @@
 
 <script>
 import { mapActions } from "vuex";
-import router from '../router/index'
-import Modal from '../components/Searchmodal.vue'
+import router from '../../router/index'
+import Modal from '../Modal.vue'
 
 export default{
     name: 'HotelListByCity',
     data() {
         return {
         isModalVisible: false,
-       
         }
     },  
 
