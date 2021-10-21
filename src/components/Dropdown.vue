@@ -1,6 +1,7 @@
 <template>
-    <div>
-        <select 
+    <div >
+        <select
+        :required="selected !== null"
         v-model="selectedOption"
         @input="event => { $emit('input', event.target.value) }" 
         class="form-select form-select-sm" aria-label=".form-select-sm example"
@@ -29,6 +30,7 @@ export default{
 
     data() {
         return {
+            selected: true,
             selectedOption: null,
         }
     },

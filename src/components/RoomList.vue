@@ -7,21 +7,37 @@
                         <div class="col-lg-3"> <img :src="room.room_image" > </div>
                         <div class="col-lg-9">
                             <div class="d-md-flex align-items-md-center">
-                                <div class="name">{{room.room_number}}</div>
-                                <div class="ms-auto code text-uppercase">SEK: {{room.pricePerNight}}</div>
+                                <div class="name"> Room number: {{room.room_number}}</div>
+                                <div class="ms-auto code text-uppercase"><span class="fas fa-comment-dollar money fs-5">{{room.pricePerNight}} SEK</span></div>
                             </div>
                             <div class="rating"> <span class="fas fa-star"></span> <span class="fas fa-star"></span> <span class="fas fa-star"></span> <span class="fas fa-star"></span> <span class="far fa-star"></span> <!-- Book now Enquiry -->
                             </div>
                             <div class="d-flex flex-column tags pt-1">
-                                <div><span class="fas fa-comment-dollar fs-5"></span>  </div>
-                                <div><span class="fas fa-receipt"></span> </div>
-                                <div><span class="fas fa-concierge-bell"></span></div>
+                                <div>Number of extra beds: {{room.extra_beds}}</div>
+                                <div>Double bed: {{ room.kingSizeBed ? "Yes" : "No" }}</div>
+                                <div><i class="fas fa-smoking-ban fs-3 mt-3 smoke"></i>  </div>
+                                <div><i class="fas fa-wifi fs-3 mt-3 "></i> </div>
                             </div>
                         </div>
                     </div>
-                    <!-- <div class="d-flex justify-content-end mt-1">
-                        <button @click="getRoomList(hotel.ID)" class="btn btn-primary text-uppercase">Book Now</button>
-                    </div> -->
+                    <div class="d-flex justify-content-end mt-1">
+                        <div class="d-flex justify-content-end mt-1">
+                        <button
+                        style="color: white;"
+                        type="button"
+                        class="btn btn-dark text-uppercase"
+                        @click="showModal(room.ID)"
+                        >
+                        book room
+                        </button>
+                                            <Bookmodal
+                        v-show="isModalVisible"
+                        @close="closeModalb()"
+                            
+                        />
+                    </div>
+                        
+                    </div>
                 </div>
             </div>
         </div>
@@ -29,18 +45,54 @@
 </template>
 
 <script>
+import Bookmodal from './Bookmodal.vue'
+import { mapMutations } from "vuex";
 
 export default{
-    name: 'RoomList'
+    name: 'RoomList',
+    components:{
+        Bookmodal,
+    },
+    data(){
+        return{
+            isModalVisible: false,
+        }
+    },
+    methods: {
+        closeModalb(){
+          this.isModalVisible = false;
+      },
+       ...mapMutations(['setRoomId']),
+       showModal(id){
+           this.setRoomId(id)
+          this.isModalVisible = true;
+       }
+        // book(){
+        //     console.log("Number of rooms from store", this.$store.state.numberOfBeds)
+        //   console.log("Number of people from store",this.$store.state.numberOfpeople);
+        // }
+    },
+    mounted() {
+      let getFontAwesome = document.createElement('script')
+      getFontAwesome.setAttribute('src', 'https://kit.fontawesome.com/744c1016da.js')
+      document.head.appendChild(getFontAwesome)
+    }
 }
 </script>
 
 <style scoped>
+
 @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@800&family=Poppins&display=swap');
 
 body {
     background-color: #eee
 }
+
+.smoke{
+    color: red;
+}
+
+
 
 * {
     padding: 0;
@@ -64,8 +116,6 @@ body {
     
 }
 
-
-
 img{
   max-width: 260px;
   max-height: 170px;
@@ -84,8 +134,6 @@ a {
 #content .user-select-none {
     user-select: none
 }
-
-
 
 .hotel .name {
     font-size: 1.2rem;

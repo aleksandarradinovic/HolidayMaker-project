@@ -14,13 +14,27 @@ async function getHotels(chosenDestination) {
         console.log(error);
     }
 }
-async function getRooms(hotelId) {
+async function getBookingList(email) {
     try{
         let pool = await sql.connect(config);
-        let rooms = await pool.request()
-        .input('input_parameter', sql.Int, hotelId)
-        .query("select * from room where hotel_ID = @input_parameter")
-        return rooms.recordsets;
+        let bookingList = await pool.request()
+        .input('eMail', sql.NVarChar, email)
+        .query("select * from RoomBooking where email = @eMail" )
+        return bookingList.recordsets;
+    }
+    catch (error) {
+        console.log(error);
+    }
+}
+async function getRooms(hotelId, checkIn, checkOut) {
+    try{
+        let pool = await sql.connect(config);
+        let roomsP = await pool.request()
+        .input('hotelId', sql.Int, hotelId)
+        .input('checkIn', sql.DateTime, checkIn)
+        .input('checkOut', sql.DateTime, checkOut)
+        .query("SELECT * FROM room where  hotel_ID = @hotelId AND ID NOT IN (select room_id from RoomBooking WHERE checkIn  BETWEEN @checkIn AND @checkOut AND checkOut BETWEEN @checkIn AND @checkOut)")
+        return roomsP.recordsets;
     }
     catch (error) {
         console.log(error);
@@ -39,9 +53,28 @@ async function getDescription(hotelDescriptionId) {
         console.log(error);
     }
 }
+async function addBooking(bookings) {
+    try{
+        let pool = await sql.connect(config);
+        let insertBooking = await pool.request()
+        .input('checkIn', sql.DateTime, bookings.checkIn)
+        .input('checkOut', sql.DateTime, bookings.checkOut)
+        .input('room_id', sql.Int, bookings.room_id)
+        .input('email', sql.VarChar, bookings.email)
+        .input('number_of_people', sql.Int, bookings.number_of_people)
+        .execute("INSERTDATA");
+        return insertBooking.recordsets
+    }
+    catch (error) {
+        console.log(error);
+    }
+}
+
 
 module.exports = {
     getHotels: getHotels,
     getRooms : getRooms,
-    getDescription : getDescription
+    getDescription : getDescription,
+    getBookingList : getBookingList,
+    addBooking : addBooking
 }

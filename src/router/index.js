@@ -8,12 +8,13 @@ const routes = [
     component: Home
   },
   {
-    path: '/hotels',
+    path: '/hotels/:hotel_city',
     name: 'Hotels',
-    component: () => import('../views/Hotels.vue')
+    component: () => import('../views/Hotels.vue'),
+    props: true,
   },
   {
-    path: '/hotel/:ID',
+    path: '/hotel/:hotel_name',
     name: 'Hotel-Room',
     component: () => import('../views/Hotel-Rooms.vue')
   },
