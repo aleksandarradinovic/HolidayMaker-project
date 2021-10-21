@@ -1,5 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import Home from '../views/Home.vue'
+import Home from '../views/HomeView.vue'
 
 const routes = [
   {
@@ -10,13 +10,13 @@ const routes = [
   {
     path: '/hotels/:hotel_city',
     name: 'Hotels',
-    component: () => import('../views/Hotels.vue'),
+    component: () => import('../views/HotelsView.vue'),
     props: true,
   },
   {
     path: '/hotel/:hotel_name',
     name: 'Hotel-Room',
-    component: () => import('../views/Hotel-Rooms.vue')
+    component: () => import('../views/RoomsView.vue')
   },
 ]
 

@@ -61,9 +61,7 @@ body {
 span {
 color: #248b7e;
 font-weight: bold;
-/* display: block; */
 width: 150px;
-/* float: left; */
 }
 
 img{
