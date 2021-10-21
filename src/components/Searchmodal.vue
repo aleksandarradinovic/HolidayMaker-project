@@ -38,7 +38,7 @@ export default{
 }
 </script>
 
-<style>
+<style scooped>
   .modal-backdrop {
     position: fixed;
     top: 0;

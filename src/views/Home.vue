@@ -18,17 +18,17 @@
 
 <script>
 import Searchform from '../components/Searchform.vue'
-
 export default {
   name: 'Home',
   data() {
     return {
-      title: 'Explore the world'
+      title: 'Explore the world',
+      isModalVisible : false,
     }
   },
   components: {
     Searchform,
-  }
+  },
 }
 </script>
 

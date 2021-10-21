@@ -13,14 +13,15 @@
                             <div class="rating"> <span class="fas fa-star"></span> <span class="fas fa-star"></span> <span class="fas fa-star"></span> <span class="fas fa-star"></span> <span class="far fa-star"></span>
                             </div>
                             <div class="d-flex flex-column tags pt-1">
-                                <div><span class="fas fa-city fa-2x">{{hotel.hotel_city}}</span>  </div>
-                                <div><span class="ms-auto code text-uppercase">Zip code: {{hotel.hotel_zip_code}}</span></div>
-                                <div><span class="fas fa-map-marked-alt fa-2x">{{hotel.hotel_adress}}</span></div>
+                                <div><span class=" fa-2x">{{hotel.hotel_city}}</span> </div>
+                                <div><span class="fas fa-map-marked-alt fs-6">{{hotel.hotel_adress}}</span></div>
+                                <div><span class="fas fa-map-marked-alt fs-6" >{{hotel.hotel_zip_code}}</span></div>
                             </div>
                         </div>
                     </div>
                     <div class="d-flex justify-content-end mt-1">
                         <button
+                        style="color: blue;"
                         type="button"
                         class="btn"
                         @click="showModal(hotel.hotel_description_id)"
@@ -33,7 +34,7 @@
                             
                         />
                         
-                        <button @click="getRoomList(hotel.ID)" class="btn btn-primary text-uppercase">Show Rooms</button>
+                        <button @click="getRoomList(hotel.ID, hotel.hotel_name)" class="btn btn-primary text-uppercase">Show Rooms</button>
                     </div>
                 </div>
             </div>
@@ -51,6 +52,7 @@ export default{
     data() {
         return {
         isModalVisible: false,
+       
         }
     },  
 
@@ -65,6 +67,7 @@ export default{
           console.log(hotelDescriptionId)
           this.fetchHotelDescription(hotelDescriptionId)
           this.isModalVisible = true;
+          
       },
 
       closeModal(){
@@ -72,10 +75,10 @@ export default{
       },
 
       ...mapActions(["fetchRooms"]),
-      getRoomList(hotelId){
-          console.log(hotelId)
-          this.fetchRooms(hotelId);
-          router.push("/hotel/"+hotelId)
+      getRoomList(hotelId, hotel_name){
+          
+          this.fetchRooms(hotelId)
+          router.push("/hotel/"+ hotel_name)
       }
     }
 }
