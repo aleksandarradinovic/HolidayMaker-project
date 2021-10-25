@@ -13,7 +13,7 @@
                             <div class="rating"> <span class="fas fa-star"></span> <span class="fas fa-star"></span> <span class="fas fa-star"></span> <span class="fas fa-star"></span> <span class="far fa-star"></span> <!-- Book now Enquiry -->
                             </div>
                             <div class="d-flex flex-column tags pt-1">
-                                <div>Number of extra beds: {{room.extra_beds}}</div>
+                                <div>Number of extra beds: {{room.number_of_beds}}</div>
                                 <div>Double bed: {{ room.kingSizeBed ? "Yes" : "No" }}</div>
                                 <div><i class="fas fa-smoking-ban fs-3 mt-3 smoke"></i>  </div>
                                 <div><i class="fas fa-wifi fs-3 mt-3 "></i> </div>
@@ -48,10 +48,10 @@
                                     <h5 class="border-bottom border-info">Booking details</h5>
                                 </div>
                                 <div>
-                                    Check in: {{this.$store.state.dateStart}}
+                                    Check in: {{ moment(this.$store.state.dateStart).format('DD MMM YYYY') }}
                                 </div>
                                 <div>
-                                    Check out: {{this.$store.state.dateEnd}}
+                                    Check out: {{ moment(this.$store.state.dateEnd).format('DD MMM YYYY') }}
                                 </div>
                                 <div>
                                     Number of people: {{this.$store.state.numberOfpeople}}
@@ -67,7 +67,6 @@
                             </template>
 
                             <template v-slot:footer>
-                                footer
                             </template>
                           </Modal>
                     </div>
@@ -82,6 +81,7 @@ import axios from 'axios'
 import router from '../../router/index'
 import Modal from '../Modal.vue'
 import { mapMutations } from "vuex";
+import moment from 'moment'
 
 export default{
     name: 'RoomList',
@@ -99,6 +99,9 @@ export default{
         closeModal(){
           this.isModalVisible = false;
       },
+      moment: function (date) {
+      return moment(date);
+        },
        ...mapMutations(['setRoomId']),
             showModal(id){
                 this.setRoomId(id)
@@ -113,7 +116,6 @@ export default{
 
         }if(this.email.length == 0){
           this.errors.splice(0)
-          console.log(this.email)
           axios.post("http://localhost:888/api/bookings", {
           checkIn : this.$store.state.dateStart,
           checkOut :  this.$store.state.dateEnd,
@@ -132,7 +134,6 @@ export default{
         }
         else{
           this.errors.splice(0)
-          console.log(this.email)
           axios.post("http://localhost:888/api/bookings", {
           checkIn : this.$store.state.dateStart,
           checkOut :  this.$store.state.dateEnd,

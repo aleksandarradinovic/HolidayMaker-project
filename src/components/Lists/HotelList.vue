@@ -38,17 +38,16 @@
                             <template v-slot:body>
                               <div v-for="item in this.$store.state.hotelDescription" :key="item.ID">
                                     <div class="p-2">
-                                        <span class="fas fa-dumbbell fa-2x fs-5">{{ item.gym ? "Yes" : "No" }}</span>
+                                        <span class="fas fa-dumbbell fa-2x fs-5">{{ item.gym ? " Gym: Yes" : " Gym: No" }}</span>
                                     </div>
-                                    <div class="p-2"><span class="fas fa-swimmer fa-lg fs-6">{{ item.pool ? "Yes" : "No" }}</span></div>
-                                    <div class="p-2"><span class="fas fa-utensils fa-lg fs-6">{{ item.restaurant ? "Yes" : "No" }}</span></div>
-                                    <div class="p-2"><span class="fas fa-wifi fa-lg fs-6">{{ item.wifi ? "Yes" : "No" }}</span></div>
-                                    <div class="p-2"><span class="fas fa-coffee fa-lg fs-6">{{ item.breakfeast ? "Yes" : "No" }}</span></div>
+                                    <div class="p-2"><span class="fas fa-swimmer fa-lg fs-6">{{ item.pool ? " Swimming pool: Yes" : " Swimming pool: No" }}</span></div>
+                                    <div class="p-2"><span class="fas fa-utensils fa-lg fs-6">{{ item.restaurant ? " Restaurant Yes" : " Restaurant No" }}</span></div>
+                                    <div class="p-2"><span class="fas fa-wifi fa-lg fs-6">{{ item.wifi ? " Free WiFi Yes" : " Free WiFi No" }}</span></div>
+                                    <div class="p-2"><span class="fas fa-coffee fa-lg fs-6">{{ item.breakfeast ? " Breakfest at hotel: Yes" : " Breakfest at hotel: No" }}</span></div>
                                 </div>
                             </template>
 
                             <template v-slot:footer>
-                                footer
                             </template>
                           </Modal>
                         <button @click="getRoomList(hotel.ID, hotel.hotel_name)" class="btn btn-primary text-uppercase">Show Rooms</button>
@@ -80,7 +79,6 @@ export default{
   methods: {
       ...mapActions(["fetchHotelDescription"]),
       showModal(hotelDescriptionId){
-          console.log(hotelDescriptionId)
           this.fetchHotelDescription(hotelDescriptionId)
           this.isModalVisible = true;
           

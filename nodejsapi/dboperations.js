@@ -14,6 +14,20 @@ async function getHotels(chosenDestination) {
         console.log(error);
     }
 }
+
+async function deleteBooking(bookingId) {
+    try{
+        let pool = await sql.connect(config);
+        let bookingdeleted = await pool.request()
+        .input('input_parameter', sql.Int, bookingId)
+        .query("delete from RoomBooking where ID = @input_parameter")
+        return bookingdeleted.recordsets;
+    }
+    catch (error) {
+        console.log(error);
+    }
+}
+
 async function getBookingList(email) {
     try{
         let pool = await sql.connect(config);
@@ -26,15 +40,46 @@ async function getBookingList(email) {
         console.log(error);
     }
 }
-async function getRooms(hotelId, checkIn, checkOut) {
+
+async function getSingleBooking(bookingId) {
+    try{
+        let pool = await sql.connect(config);
+        let singleBooking = await pool.request()
+        .input('bookingId', sql.Int, bookingId)
+        .query("select * from RoomBooking where ID = @bookingId" )
+        return singleBooking.recordsets;
+    }
+    catch (error) {
+        console.log(error);
+    }
+}
+
+async function getRooms(hotelId, checkIn, checkOut, number_of_beds) {
     try{
         let pool = await sql.connect(config);
         let roomsP = await pool.request()
         .input('hotelId', sql.Int, hotelId)
         .input('checkIn', sql.DateTime, checkIn)
         .input('checkOut', sql.DateTime, checkOut)
+        .input('bedNumber', sql.Int, number_of_beds)
         .query("SELECT * FROM room where  hotel_ID = @hotelId AND ID NOT IN (select room_id from RoomBooking WHERE checkIn  BETWEEN @checkIn AND @checkOut AND checkOut BETWEEN @checkIn AND @checkOut)")
         return roomsP.recordsets;
+    }
+    catch (error) {
+        console.log(error);
+    }
+}
+
+async function checkAvaible(ID, room_id, checkIn, checkOut) {
+    try{
+        let pool = await sql.connect(config);
+        let avaiableRoom = await pool.request()
+        .input('bookingId', sql.Int, ID)
+        .input('roomId', sql.Int, room_id)
+        .input('checkIn', sql.DateTime, checkIn)
+        .input('checkOut', sql.DateTime, checkOut)
+        .query(" SELECT * FROM RoomBooking where room_id = @roomId AND checkIn <= @checkOut and checkOut >= @checkIn  AND ID != @bookingId")
+        return avaiableRoom.recordsets;
     }
     catch (error) {
         console.log(error);
@@ -70,11 +115,33 @@ async function addBooking(bookings) {
     }
 }
 
+async function modifiedBooking(booking) {
+    try{
+        let pool = await sql.connect(config);
+        let BookingModified = await pool.request()
+        .input('bookingId', sql.Int, booking.ID)
+        .input('checkIn', sql.DateTime, booking.checkIn)
+        .input('checkOut', sql.DateTime, booking.checkOut)
+        .input('room_id', sql.Int, booking.room_id)
+        .input('email', sql.VarChar, booking.email)
+        .input('number_of_people', sql.Int, booking.number_of_people)
+        .query('UPDATE RoomBooking SET room_id = @room_id, number_of_people = @number_of_people, email = @email, checkIn = @checkIn, checkOut = @checkOut WHERE ID = @bookingId' )
+        return BookingModified.recordsets
+    }
+    catch (error) {
+        console.log(error);
+    }
+}
+
 
 module.exports = {
     getHotels: getHotels,
     getRooms : getRooms,
     getDescription : getDescription,
     getBookingList : getBookingList,
-    addBooking : addBooking
+    addBooking : addBooking,
+    getSingleBooking : getSingleBooking,
+    deleteBooking : deleteBooking,
+    modifiedBooking : modifiedBooking,
+    checkAvaible : checkAvaible,
 }

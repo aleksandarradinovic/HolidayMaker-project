@@ -33,11 +33,10 @@ export default{
     methods: {
         ...mapMutations(['setDateStart']),
       onChangeStartDate(){
-        console.log("Chosen start date: ",this.dateStart)
+        
         let currentDate = new Date().toISOString().substr(0, 10)
         if(this.dateStart >= currentDate){
           this.setDateStart(this.dateStart);
-          console.log("Date from store: ",this.$store.state.dateStart)
         }else{
           alert("Invalid date please choose again!")
           this.dateStart = new Date().toISOString().substr(0, 10)
@@ -52,7 +51,6 @@ export default{
   
             alert('Invalid date please choose again!')
           }else{
-          console.log("Chosen end date", this.dateEnd);
           this.setDateEnd(this.dateEnd)
           }
       }

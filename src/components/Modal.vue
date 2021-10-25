@@ -27,7 +27,7 @@
           class="btn-green"
           @click="close"
         >
-          Close Modal
+          Close
         </button>
       </footer>
     </div>
@@ -62,7 +62,7 @@ export default{
   .modal {
      max-width: 80%;
       max-height: 80%;
-    background: #ffffffe1;
+    background: #ffffff;
     box-shadow: 2px 2px 20px 1px;
     overflow-x: auto;
 

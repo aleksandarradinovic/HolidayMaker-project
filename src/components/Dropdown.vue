@@ -41,7 +41,6 @@ export default{
     watch: {
         value: function (newValue) {
         this.selectedOption = newValue
-        console.log(this.selectedOption, "from component")
         }
     }
 
