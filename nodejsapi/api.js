@@ -6,6 +6,7 @@ const dboperations = require('./dboperations');
 var express = require('express');
 var cors = require('cors');
 const { Int } = require('mssql');
+const { request, response } = require('express');
 var app = express();
 var router = express.Router();
 
@@ -16,17 +17,30 @@ app.use(cors());
 app.use('/api', router);
 
 router.use((request, response, next)=>{
-    console.log('middleware');
+    console.log('request is done');
     next();
 });
 
 router.route("/hotel").get((request,response)=> {
-    
+
     let hotelId = request.query.hotelId;
+    let number_of_beds = request.query.number_of_beds;
     let checkIn = request.query.checkIn;
     let checkOut = request.query.checkOut;
 
-    Db.getRooms(hotelId, checkIn, checkOut).then(result => {
+    Db.getRooms(hotelId, checkIn, checkOut, number_of_beds).then(result => {
+        response.json(result);
+    })
+})
+
+router.route("/checkdate").get((request,response)=> {
+
+    let ID = request.query.ID;
+    let room_id = request.query.room_id;
+    let checkIn = request.query.checkIn;
+    let checkOut = request.query.checkOut;
+
+    Db.checkAvaible(ID, room_id, checkIn, checkOut).then(result => {
         response.json(result);
     })
 })
@@ -45,12 +59,33 @@ router.route("/bookings/:email").get((request,response)=> {
     })
 })
 
+router.route("/bookingsdelete/:bookingId").delete((request,response)=> {
+   
+    Db.deleteBooking(request.params.bookingId).then(result => {
+        response.json(result);
+    })
+})
+
 router.route("/description/:hotel_description_id").get((request,response)=> {
     Db.getDescription(request.params.hotel_description_id).then(result => {
         response.json(result);
     })
 })
 
+router.route("/singlebooking/:bookingId").get((request, response)=>{
+    Db.getSingleBooking(request.params.bookingId).then(result =>{
+        response.json(result);
+    })
+})
+
+router.route("/modifiedbooking").put((request,response)=> {
+
+    let booking = {...request.body}
+
+    Db.modifiedBooking(booking).then(result => {
+        response.status(201).json(result)
+    })
+})
 
 router.route("/bookings").post((request,response)=> {
 

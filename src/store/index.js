@@ -16,11 +16,23 @@ export default createStore({
     numberOfBeds: null,
     eMail : null,
     bookingList: [],
+    singleBooking: [],
+    bookingId: null,
+    avaiblelist: [],
   },
   
   mutations: {
+    setAvaible(state, result){
+        state.avaiblelist = result
+    },
     setHotelList(state,result){
       state.hotelList = result;
+    },
+    setSingleBooking(state, result){
+      state.singleBooking = result
+    },
+    setBookingId(state, result){
+      state.bookingId = result
     },
     setBookingList(state,result){
       state.bookingList = result
@@ -64,6 +76,7 @@ export default createStore({
        let result = await axios.get('http://localhost:888/api/hotel',{
          params : {
            hotelId : id,
+           number_of_beds : this.state.numberOfBeds,
            checkIn : this.state.dateStart,
            checkOut : this.state.dateEnd
          }
@@ -71,6 +84,18 @@ export default createStore({
       console.warn(result.data)
       context.commit("setRoomList", result.data[0])
     },
+    async checkAvaible(context){
+      let result = await axios.get('http://localhost:888/api/checkdate', {
+        params: {
+          ID : this.state.bookingId,
+          room_id : this.state.roomId,
+          checkIn : this.state.dateStart,
+          checkOut : this.state.dateEnd,
+      }
+     })
+     console.warn(result.data)
+     context.commit("setAvaible", result.data[0])
+   },
     async fetchHotelDescription(context, hotelDescriptionId){
       let result = await axios.get('http://localhost:888/api/description/' + hotelDescriptionId)
       console.warn(result.data)
@@ -80,7 +105,19 @@ export default createStore({
       let result = await axios.get('http://localhost:888/api/bookings/' + email)
       console.warn(result.data)
       context.commit("setBookingList", result.data[0])
+    },
+    async getChosenBooking(context, bookingId){
+      let result = await axios.get('http://localhost:888/api/singlebooking/' + bookingId)
+      console.warn(result.data)
+      context.commit("setSingleBooking", result.data[0])
+      
+    },
+    async deleteBooking(context, bookingId){
+      let result = await axios.delete('http://localhost:888/api/bookingsdelete/' + bookingId)
+        console.warn(result.data)
+        context.commit("setSingleBooking", result.data[0])
     }
+
   },
   
   modules: {

@@ -16,7 +16,7 @@
                             <template v-slot:header>
                               <div class="mb-3">
                                   <label for="eMailInput" class="form-label">Email address</label>
-                                  <input placeholder="example@gmail.com" type="email" v-model="email" class="form-control" id="eMailInput" aria-describedby="emailHelp">
+                                  <input autocomplete="off" placeholder="example@gmail.com" type="email" v-model="email" class="form-control" id="eMailInput" aria-describedby="emailHelp">
                                   <div id="emailHelp" class="form-text">Type in your email to see your bookings</div>
                                   <button type="button" @click="listBookings(email)" class="searchHotelsbtn">See List</button>
                               </div>
@@ -36,7 +36,6 @@
                             </template>
 
                             <template v-slot:footer>
-                              footer from home.
                             </template>
                           </Modal>
                     </div>
@@ -123,21 +122,26 @@ export default{
       ...mapActions(['getBookingList']),
       listBookings(email){
         this.emailErrors.splice(0)
+        
 
         if(email.length == 0){
           this.emailErrors.push('Your email is to short')
+          // this.email = ""
         }
         if(email.length > 50){
           this.emailErrors.push('Your email is to long')
+          // this.email = ""
         }
         //eslint-disable-next-line
          if (!(/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/g.test(email))) {
         this.emailErrors.push("Email Is Not Valid");
+        // this.email = ""
         }else{
           this.emailErrors.splice(0)
           this.setEmail(email);
           this.getBookingList(email);
         }
+        this.email = ""
       },
 
         ...mapActions(['fetchHotels']),
@@ -151,10 +155,12 @@ export default{
         if(this.$store.state.numberOfBeds == null){
           this.errors.push('Number of beds required')
         }
-        if(this.$store.state.dateStart == ''){
+        if(this.$store.state.dateStart == null){
+          
           this.errors.push('check in date required')
         }
-        if(this.$store.state.dateEnd == ''){
+        if(this.$store.state.dateEnd == null){
+          
           this.errors.push('check out date required')
         }
         if(this.$store.state.chosenDestination == ''){
@@ -170,18 +176,14 @@ export default{
         ...mapMutations(['setChosenDestination']),
         saveDestination(value){
           this.setChosenDestination(value)
-          console.log(this.$store.state.chosenDestination, "From store")
-          console.log("Selected city: ", value)
         },
         ...mapMutations(['setNumberOfPeople']),
         saveGuests(value){
           this.setNumberOfPeople(value);
-          console.log("Number of people from store",this.$store.state.numberOfpeople);
         },
         ...mapMutations(['setNumberOfBeds']),
         saveBeds(value){
           this.setNumberOfBeds(value);
-          console.log("Number of rooms from store", this.$store.state.numberOfBeds)
         }
     }
 }
