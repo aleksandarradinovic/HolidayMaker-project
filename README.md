@@ -5,12 +5,12 @@
 npm install
 ```
 
-## CD:a in i nodejsapi mappen som ligger i projektmappen och kör npm start serve för att starta api
+### CD:a in i nodejsapi mappen
 ```
-npm start serve
+CD:a in i nodejsapi mappen som ligger i projektmappen och kör npm start serve för att starta api
 ```
 
-### Ändra i config inställningar för databas connection i dbconfig.js filen som är i nodejsapi mappen.
+### config inställningar i dbconfig.js
 ```
 Ändra i config inställningar för databas connection i dbconfig.js filen som är i nodejsapi mappen.
 ```
