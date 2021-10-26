@@ -22,3 +22,9 @@ npm run lint
 
 ### Customize configuration
 See [Configuration Reference](https://cli.vuejs.org/config/).
+
+Cd:a in i nodejsapi mappen som är i projektet och kör npm start serve
+
+Ändra i config inställningar för databas connection i dbconfig.js filen som är i nodejsapi mappen.
+
+
